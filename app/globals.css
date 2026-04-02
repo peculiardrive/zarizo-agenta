@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --ink: #0A0F1E;
+    --gold: #F5A623;
+    --teal: #0CC6A4;
+    --snow: #F8F9FC;
+    --border: #E4E8F0;
+    --text: #3D4461;
+  }
+
+  body {
+    @apply bg-snow text-text font-dm-sans;
+  }
+
+  h1, h2, h3, h4, h5, h6, .display {
+    @apply font-syne font-bold;
+  }
+}
+
+@layer components {
+  .stat-card {
+    @apply bg-white p-6 rounded-2xl border border-border shadow-soft transition-all duration-300;
+  }
+
+  .stat-card:hover {
+    @apply -translate-y-1 shadow-glow;
+  }
+
+  .btn-gold {
+    @apply bg-gold hover:bg-gold-2 text-ink font-bold px-6 py-3 rounded-full transition-all;
+  }
+
+  .btn-teal {
+    @apply bg-teal hover:bg-teal-2 text-white font-bold px-6 py-3 rounded-full transition-all;
+  }
+
+  .badge-teal {
+    @apply bg-teal-light text-teal-2 font-bold px-3 py-1 rounded-full text-sm;
+  }
+
+  .live-dot {
+    @apply w-2 h-2 rounded-full bg-teal animate-pulse;
+  }
+}
