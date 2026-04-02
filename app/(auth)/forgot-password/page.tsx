@@ -58,7 +58,7 @@ export default function ForgotPasswordPage() {
              Back to Login
           </Link>
           <h1 className="text-3xl display text-ink mb-2">Forgot Password?</h1>
-          <p className="text-text-2">Enter your email and we'll send you reset instructions.</p>
+          <p className="text-text-2">Enter your email and we&apos;ll send you reset instructions.</p>
         </div>
 
         <form onSubmit={handleReset} className="space-y-6">

@@ -12,8 +12,8 @@ export class CommissionService {
   }
 
   static async createCommission(orderId: string, agentId: string, amount: number) {
-    const { data, error } = await this.supabase
-      .from('commissions')
+    const { data, error } = await (this.supabase
+      .from('commissions') as any)
       .insert({
         order_id: orderId,
         agent_id: agentId,
@@ -28,8 +28,8 @@ export class CommissionService {
   }
 
   static async approveCommission(commissionId: string) {
-    const { data, error } = await this.supabase
-      .from('commissions')
+    const { data, error } = await (this.supabase
+      .from('commissions') as any)
       .update({ payout_status: 'approved' })
       .eq('id', commissionId)
       .select()
@@ -40,8 +40,8 @@ export class CommissionService {
   }
 
   static async markPaid(commissionId: string) {
-    const { data, error } = await this.supabase
-      .from('commissions')
+    const { data, error } = await (this.supabase
+      .from('commissions') as any)
       .update({ 
         payout_status: 'paid',
         paid_at: new Date().toISOString()
@@ -67,9 +67,9 @@ export class CommissionService {
       approved: 0,
       paid: 0,
       total: 0
-    }
+    };
 
-    data.forEach(c => {
+    ((data as any[]) || []).forEach(c => {
       if (c.payout_status === 'pending') stats.pending += Number(c.amount)
       if (c.payout_status === 'approved') stats.approved += Number(c.amount)
       if (c.payout_status === 'paid') stats.paid += Number(c.amount)
@@ -88,10 +88,10 @@ export class CommissionService {
 
     if (orderError) throw orderError
 
-    const orderIds = deliveredOrders.map(o => o.id)
+    const orderIds = (deliveredOrders as any[]).map(o => o.id)
 
-    const { error: updateError } = await this.supabase
-      .from('commissions')
+    const { error: updateError } = await (this.supabase
+      .from('commissions') as any)
       .update({ payout_status: 'approved' })
       .in('order_id', orderIds)
       .eq('payout_status', 'pending')
