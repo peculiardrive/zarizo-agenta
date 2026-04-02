@@ -66,9 +66,10 @@ export class AdminService {
    * Suspend an item (Business, Agent, or Product)
    */
   static async suspendItem(table: 'businesses' | 'agents' | 'products', id: string) {
+    const status = table === 'products' ? 'draft' : 'suspended'
     const { error } = await this.supabase
       .from(table)
-      .update({ status: 'suspended' })
+      .update({ status } as any)
       .eq('id', id)
     
     if (error) throw error
