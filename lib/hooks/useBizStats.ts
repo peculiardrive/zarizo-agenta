@@ -33,7 +33,7 @@ export function useBizStats(businessId: string) {
         .eq('business_id', businessId)
         .eq('payment_status', 'paid')
       
-      const totalRevenue = revenueData?.reduce((acc, o) => acc + Number(o.total_amount), 0) || 0
+      const totalRevenue = (revenueData as any[])?.reduce((acc, o) => acc + Number(o.total_amount), 0) || 0
 
       const { count: activeProducts } = await supabase
         .from('products')
@@ -47,7 +47,7 @@ export function useBizStats(businessId: string) {
         .eq('business_id', businessId)
         .not('agent_id', 'is', null)
       
-      const agentCount = new Set(orderData?.map(o => o.agent_id)).size
+      const agentCount = new Set((orderData as any[])?.map(o => o.agent_id) || []).size
 
       setStats({
         totalOrders: totalOrders || 0,

@@ -21,6 +21,7 @@ export interface Database {
         }
         Insert: { id: string, email: string, full_name: string, role?: 'admin' | 'business' | 'agent' }
         Update: { id?: string, email?: string, full_name?: string, role?: 'admin' | 'business' | 'agent' }
+        Relationships: []
       }
       businesses: {
         Row: {
@@ -34,6 +35,14 @@ export interface Database {
           status: 'pending' | 'active' | 'suspended'
           created_at: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "businesses_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       agents: {
         Row: {
@@ -46,6 +55,14 @@ export interface Database {
           status: 'pending' | 'active' | 'suspended'
           created_at: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "agents_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       products: {
         Row: {
@@ -61,6 +78,14 @@ export interface Database {
           status: 'active' | 'draft' | 'out_of_stock'
           created_at: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "products_business_id_fkey"
+            columns: ["business_id"]
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       orders: {
         Row: {
@@ -79,6 +104,26 @@ export interface Database {
           created_at: string
           updated_at: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "orders_agent_id_fkey"
+            columns: ["agent_id"]
+            referencedRelation: "agents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_business_id_fkey"
+            columns: ["business_id"]
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_product_id_fkey"
+            columns: ["product_id"]
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       commissions: {
         Row: {
@@ -90,6 +135,20 @@ export interface Database {
           paid_at: string | null
           created_at: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "commissions_agent_id_fkey"
+            columns: ["agent_id"]
+            referencedRelation: "agents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commissions_order_id_fkey"
+            columns: ["order_id"]
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       notifications: {
         Row: {
@@ -101,6 +160,14 @@ export interface Database {
           read: boolean
           created_at: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       payouts: {
         Row: {
@@ -114,6 +181,14 @@ export interface Database {
           reference: string | null
           created_at: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "payouts_agent_id_fkey"
+            columns: ["agent_id"]
+            referencedRelation: "agents"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       referral_clicks: {
         Row: {
@@ -122,6 +197,20 @@ export interface Database {
           product_id: string | null
           created_at: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "referral_clicks_agent_id_fkey"
+            columns: ["agent_id"]
+            referencedRelation: "agents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "referral_clicks_product_id_fkey"
+            columns: ["product_id"]
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          }
+        ]
       }
     }
   }

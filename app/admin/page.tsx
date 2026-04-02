@@ -10,17 +10,21 @@ export default async function AdminOverview() {
   const summary = await ReportService.getPlatformSummary()
   
   const supabase = createClient()
-  const { data: recentOrders } = await supabase
+  const { data: orderData } = await supabase
     .from('orders')
     .select('*, products(title), agents(users(full_name))')
     .order('created_at', { ascending: false })
     .limit(10)
 
-  const { data: pendingAgents } = await supabase
+  const recentOrders = (orderData || []) as any[]
+
+  const { data: agentData } = await supabase
     .from('agents')
     .select('*, users(full_name, email, phone)')
     .eq('status', 'pending')
     .limit(5)
+  
+  const pendingAgents = (agentData || []) as any[]
 
   return (
     <div className="space-y-12">

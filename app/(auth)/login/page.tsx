@@ -80,7 +80,7 @@ export default function LoginPage() {
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <Label htmlFor="password">Password</Label>
-              <Link href="/auth/forgot-password" title="Forgot Password" name="forgot password link" className="text-sm text-gold hover:text-gold-2">Forgot password?</Link>
+              <Link href="/auth/forgot-password" title="Forgot Password" className="text-sm text-gold hover:text-gold-2">Forgot password?</Link>
             </div>
             <Input 
               id="password" 
@@ -109,7 +109,7 @@ export default function LoginPage() {
         </div>
 
         <p className="mt-8 text-center text-sm text-text-2">
-          Don't have an account?{' '}
+          Don&apos;t have an account?{' '}
           <Link href="/auth/signup" className="text-gold font-bold hover:underline">Sign up</Link>
         </p>
       </div>

@@ -6,13 +6,14 @@ import { GovernorActions } from '@/components/admin/GovernorActions'
 export default async function AdminAgentsPage() {
   const supabase = createClient()
   
-  const { data: agents } = await supabase
+  const { data } = await supabase
     .from('agents')
     .select('*, users(full_name, email, phone)')
     .order('created_at', { ascending: false })
 
-  const activeAgents = agents?.filter(a => a.status === 'active') || []
-  const pendingAgents = agents?.filter(a => a.status === 'pending') || []
+  const agents = (data || []) as any[]
+  const activeAgents = agents.filter(a => a.status === 'active')
+  const pendingAgents = agents.filter(a => a.status === 'pending')
 
   return (
     <div className="space-y-12">

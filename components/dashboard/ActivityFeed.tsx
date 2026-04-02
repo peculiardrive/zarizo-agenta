@@ -36,8 +36,8 @@ export function ActivityFeed() {
       const { data: comms } = await supabase.from('commissions').select('*').order('created_at', { ascending: false }).limit(5)
       
       const combined = [
-        ...(orders?.map(o => ({ ...o, type: 'order', message: `New order ${o.id} placed`, timestamp: o.created_at })) || []),
-        ...(comms?.map(c => ({ ...c, type: 'commission', message: `Commission of ₦${c.amount} recorded`, timestamp: c.created_at })) || [])
+        ...((orders as any[])?.map(o => ({ ...o, type: 'order', message: `New order ${o.id} placed`, timestamp: o.created_at })) || []),
+        ...((comms as any[])?.map(c => ({ ...c, type: 'commission', message: `Commission of ₦${c.amount} recorded`, timestamp: c.created_at })) || [])
       ].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
       
       setEvents(combined)

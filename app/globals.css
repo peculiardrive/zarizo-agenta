@@ -68,11 +68,48 @@
            hover:scale-[1.02] transition-all active:scale-95 shadow-lg shadow-black/10;
   }
 
+  .btn-gold {
+    @apply bg-gold text-ink px-6 py-2.5 rounded-2xl text-sm font-bold 
+           hover:scale-[0.98] transition-all active:scale-95 shadow-glow;
+  }
+
   .btn-ghost {
     @apply text-brand-black hover:bg-gray-50 border border-gray-100 px-6 py-2.5 rounded-full text-sm font-semibold transition-all;
   }
 
   .pill-badge {
-    @apply px-4 py-1.5 rounded-full border border-blue-100 bg-blue-50/50 text-blue-600 text-xs font-bold tracking-wider inline-flex items-center gap-2;
+    @apply px-4 py-1.5 rounded-full border border-teal-light bg-teal-light text-teal text-[10px] font-bold uppercase tracking-widest inline-flex items-center gap-2;
   }
+
+  .live-dot {
+    @apply w-2 h-2 bg-teal rounded-full relative;
+  }
+
+  .live-dot::after {
+    content: '';
+    @apply absolute inset-0 bg-teal rounded-full animate-ping;
+  }
+
+  .shadow-soft {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.display {
+  font-family: var(--font-syne), sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.95; }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }

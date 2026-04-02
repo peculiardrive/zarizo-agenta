@@ -6,10 +6,12 @@ import { GovernorActions } from '@/components/admin/GovernorActions'
 export default async function AdminBusinessesPage() {
   const supabase = createClient()
   
-  const { data: businesses } = await supabase
+  const { data } = await supabase
     .from('businesses')
     .select('*, users(full_name), products(count)')
     .order('created_at', { ascending: false })
+
+  const businesses = (data || []) as any[]
 
   return (
     <div className="space-y-12">
