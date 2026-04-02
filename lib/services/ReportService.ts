@@ -116,7 +116,8 @@ export class ReportService {
     const products: Record<string, { title: string, count: number }> = {}
     orders.forEach(o => {
       const id = o.product_id
-      if (!products[id]) products[id] = { title: o.products.title, count: 0 }
+      const title = o.products?.title || 'Unknown Product'
+      if (!products[id]) products[id] = { title, count: 0 }
       products[id].count += 1
     })
     return Object.values(products).sort((a, b) => b.count - a.count)

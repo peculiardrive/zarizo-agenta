@@ -173,7 +173,7 @@ export default async function HomePage() {
              </div>
          </div>
          <div className="max-w-7xl mx-auto mt-32 pt-12 border-t border-gray-50 text-gray-400 text-xs font-bold uppercase tracking-tightest">
-            © 2024 ZARIZO LABS. ALL SYSTEMS ACTIVE.
+            © 2026 ZARIZO LABS. ALL SYSTEMS ACTIVE.
          </div>
       </footer>
     </div>
