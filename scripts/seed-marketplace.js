@@ -13,8 +13,7 @@ const SEED_PRODUCTS = [
     commission_value: 15,
     image_url: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=800',
     description: 'A premium organic serum for radiant skin. Infused with botanical extracts and essential oils to reduce fine lines and boost hydration.',
-    status: 'active',
-    category: 'Beauty'
+    status: 'active'
   },
   {
     title: 'SmartHome Pro Hub V2',
@@ -23,8 +22,7 @@ const SEED_PRODUCTS = [
     commission_value: 5000,
     image_url: 'https://images.unsplash.com/photo-1558002038-103792e07a70?auto=format&fit=crop&q=80&w=800',
     description: 'The ultimate home automation controller. Compatible with over 1,000 devices. Secure, fast, and easy to set up.',
-    status: 'active',
-    category: 'Electronics'
+    status: 'active'
   },
   {
     title: 'Zarizo Digital Growth Kit',
@@ -33,8 +31,7 @@ const SEED_PRODUCTS = [
     commission_value: 20,
     image_url: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800',
     description: 'Master the art of digital marketing. Includes 5 e-books, 10 templates, and access to our private Discord community.',
-    status: 'active',
-    category: 'Education'
+    status: 'active'
   },
   {
     title: 'Heritage Leather Weekender',
@@ -43,8 +40,7 @@ const SEED_PRODUCTS = [
     commission_value: 10,
     image_url: 'https://images.unsplash.com/photo-1547949003-9792a18a2601?auto=format&fit=crop&q=80&w=800',
     description: 'A timeless travel companion handcrafted from genuine top-grain leather. Built to last a lifetime of adventures.',
-    status: 'active',
-    category: 'Fashion'
+    status: 'active'
   }
 ];
 
