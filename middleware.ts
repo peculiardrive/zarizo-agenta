@@ -82,6 +82,12 @@ export async function middleware(request: NextRequest) {
 
     const role = userData?.role
 
+    if (!role) {
+      console.error(`Middleware: Role not found for user ${user.id}`)
+      url.pathname = '/auth/login'
+      return NextResponse.redirect(url)
+    }
+
     if (url.pathname.startsWith('/admin') && role !== 'admin') {
       url.pathname = `/${role}`
       return NextResponse.redirect(url)
