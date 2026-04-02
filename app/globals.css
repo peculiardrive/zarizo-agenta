@@ -4,45 +4,75 @@
 
 @layer base {
   :root {
-    --ink: #0A0F1E;
-    --gold: #F5A623;
-    --teal: #0CC6A4;
-    --snow: #F8F9FC;
-    --border: #E4E8F0;
-    --text: #3D4461;
+    --brand-black: #0A0A0A;
+    --brand-blue: #3b82f6;
+    --brand-violet: #8b5cf6;
+    --background-start: #f8faff;
+    --background-end: #ffffff;
+  }
+
+  ::selection {
+    background-color: rgba(59, 130, 246, 0.2);
   }
 
   body {
-    @apply bg-snow text-text font-dm-sans;
+    background: linear-gradient(to bottom, var(--background-start) 0%, var(--background-end) 100%);
+    color: var(--brand-black);
+    @apply antialiased min-h-screen;
+    position: relative;
   }
 
-  h1, h2, h3, h4, h5, h6, .display {
-    @apply font-syne font-bold;
+  /* Subdued Grain Overlay */
+  body::before {
+    content: "";
+    @apply fixed inset-0 pointer-events-none opacity-[0.03] z-[9999];
+    background-image: url('https://grainy-gradients.vercel.app/noise.svg');
+    background-repeat: repeat;
+  }
+
+  h1, h2, h3, h4, .title {
+    font-family: var(--font-inter), sans-serif;
+    @apply tracking-tighter leading-none;
   }
 }
 
 @layer components {
-  .stat-card {
-    @apply bg-white p-6 rounded-2xl border border-border shadow-soft transition-all duration-300;
+  .hero-heading {
+    @apply text-[64px] md:text-[110px] font-[900] mb-8;
+    letter-spacing: -0.05em;
+    font-family: var(--font-inter), sans-serif;
   }
 
-  .stat-card:hover {
-    @apply -translate-y-1 shadow-glow;
+  .text-gradient-blue {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(
+      to right, 
+      var(--brand-blue), 
+      var(--brand-violet)
+    );
   }
 
-  .btn-gold {
-    @apply bg-gold hover:bg-gold-2 text-ink font-bold px-6 py-3 rounded-full transition-all;
+  .floating-nav {
+    @apply fixed top-6 inset-x-0 mx-auto max-w-4xl rounded-full 
+           bg-white/70 backdrop-blur-md border border-gray-100/50 
+           shadow-2xl shadow-blue-500/5 z-[100] px-6 py-2.5 
+           flex items-center justify-between transition-all duration-300;
   }
 
-  .btn-teal {
-    @apply bg-teal hover:bg-teal-2 text-white font-bold px-6 py-3 rounded-full transition-all;
+  .nav-link {
+    @apply text-sm font-medium text-gray-600 hover:text-brand-black transition-colors px-3 py-1;
   }
 
-  .badge-teal {
-    @apply bg-teal-light text-teal-2 font-bold px-3 py-1 rounded-full text-sm;
+  .btn-black {
+    @apply bg-brand-black text-white px-6 py-2.5 rounded-full text-sm font-semibold 
+           hover:scale-[1.02] transition-all active:scale-95 shadow-lg shadow-black/10;
   }
 
-  .live-dot {
-    @apply w-2 h-2 rounded-full bg-teal animate-pulse;
+  .btn-ghost {
+    @apply text-brand-black hover:bg-gray-50 border border-gray-100 px-6 py-2.5 rounded-full text-sm font-semibold transition-all;
+  }
+
+  .pill-badge {
+    @apply px-4 py-1.5 rounded-full border border-blue-100 bg-blue-50/50 text-blue-600 text-xs font-bold tracking-wider inline-flex items-center gap-2;
   }
 }

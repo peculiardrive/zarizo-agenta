@@ -2,7 +2,14 @@ import { createClient } from '@/lib/supabase/client'
 import { Database } from '@/lib/supabase/types'
 
 export class ReportService {
-  private static supabase = createClient()
+  private static _supabase: any = null
+
+  private static get supabase() {
+    if (!this._supabase) {
+      this._supabase = createClient()
+    }
+    return this._supabase
+  }
 
   static async getPlatformSummary() {
     const { count: totalOrders } = await this.supabase
