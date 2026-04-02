@@ -41,6 +41,7 @@ const bizLinks = [
   { href: '/business/agents', label: 'My Agents', icon: Users },
   { href: '/business/reports', label: 'Reports', icon: BarChart3 },
   { href: '/business/profile', label: 'Profile', icon: UserCircle },
+  { href: '/business/support', label: 'Support', icon: HelpCircle },
 ]
 
 const agentLinks = [

@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { StatCard } from '@/components/dashboard/StatCard'
 import { Users, Search, Filter, MoreVertical, Check, X } from 'lucide-react'
+import { GovernorActions } from '@/components/admin/GovernorActions'
 
 export default async function AdminAgentsPage() {
   const supabase = createClient()
@@ -62,14 +63,7 @@ export default async function AdminAgentsPage() {
                              <td className="px-8 py-6 text-sm text-text-2 font-bold">{new Date(agent.created_at).toLocaleDateString()}</td>
                              <td className="px-8 py-6 text-sm font-bold text-ink">{agent.bank_name}</td>
                              <td className="px-8 py-6 text-right">
-                                <div className="flex items-center justify-end gap-3 translate-x-2">
-                                   <button className="bg-teal text-white w-10 h-10 flex items-center justify-center rounded-xl hover:scale-110 transition-all shadow-glow-teal">
-                                      <Check className="w-5 h-5" />
-                                   </button>
-                                   <button className="bg-danger/10 text-danger w-10 h-10 flex items-center justify-center rounded-xl hover:bg-danger hover:text-white transition-all border border-danger/10">
-                                      <X className="w-5 h-5" />
-                                   </button>
-                                </div>
+                                <GovernorActions id={agent.id} type="agent" status={agent.status} />
                              </td>
                           </tr>
                        ))}

@@ -31,16 +31,50 @@ export class ReportService {
       .select('total_amount')
       .eq('payment_status', 'paid')
 
-    const totalRevenue = revenueData?.reduce((acc, o) => acc + Number(o.total_amount), 0) || 0
+    const totalRevenue = revenueData?.reduce((acc: number, o: any) => acc + Number(o.total_amount), 0) || 0
 
     const { data: commissionData } = await this.supabase
       .from('commissions')
       .select('amount, payout_status')
 
-    const pendingCommissions = commissionData?.filter(c => c.payout_status === 'pending').reduce((acc, c) => acc + Number(c.amount), 0) || 0
-    const paidCommissions = commissionData?.filter(c => c.payout_status === 'paid').reduce((acc, c) => acc + Number(c.amount), 0) || 0
+    const pendingCommissions = commissionData?.filter((c: any) => c.payout_status === 'pending').reduce((acc: number, c: any) => acc + Number(c.amount), 0) || 0
+    const paidCommissions = commissionData?.filter((c: any) => c.payout_status === 'paid').reduce((acc: number, c: any) => acc + Number(c.amount), 0) || 0
 
-    return { totalOrders, totalRevenue, activeAgents, activeBusinesses, pendingCommissions, paidCommissions }
+    // Startup Metrics
+    const { count: totalClicks } = await this.supabase
+      .from('referral_clicks')
+      .select('*', { count: 'exact', head: true })
+
+    const conversionRate = totalClicks ? Number(((totalOrders || 0) / totalClicks * 100).toFixed(1)) : 0
+
+    const { count: pendingOrders } = await this.supabase
+      .from('orders')
+      .select('*', { count: 'exact', head: true })
+      .eq('order_status', 'pending')
+
+    const { count: deliveredOrders } = await this.supabase
+      .from('orders')
+      .select('*', { count: 'exact', head: true })
+      .eq('order_status', 'delivered')
+
+    const { count: activeProducts } = await this.supabase
+      .from('products')
+      .select('*', { count: 'exact', head: true })
+      .eq('status', 'active')
+
+    return { 
+      totalOrders: totalOrders || 0, 
+      totalRevenue, 
+      activeAgents: activeAgents || 0, 
+      activeBusinesses: activeBusinesses || 0, 
+      pendingCommissions, 
+      paidCommissions,
+      totalClicks: totalClicks || 0,
+      conversionRate,
+      pendingOrders: pendingOrders || 0,
+      deliveredOrders: deliveredOrders || 0,
+      activeProducts: activeProducts || 0
+    }
   }
 
   static async getAgentLeaderboard() {
@@ -51,11 +85,11 @@ export class ReportService {
     
     if (error) throw error
 
-    const leaderboard = data.map(agent => ({
+    const leaderboard = data.map((agent: any) => ({
       name: agent.users.full_name,
       code: agent.referral_code,
-      totalEarned: agent.commissions.reduce((acc, c) => acc + Number(c.amount), 0)
-    })).sort((a, b) => b.totalEarned - a.totalEarned).slice(0, 10)
+      totalEarned: agent.commissions.reduce((acc: number, c: any) => acc + Number(c.amount), 0)
+    })).sort((a: any, b: any) => b.totalEarned - a.totalEarned).slice(0, 10)
 
     return leaderboard
   }
@@ -70,8 +104,8 @@ export class ReportService {
 
     const performance = {
       orders: data.length,
-      revenue: data.reduce((acc, o) => acc + Number(o.total_amount), 0),
-      agents: new Set(data.map(o => o.agent_id)).size,
+      revenue: data.reduce((acc: number, o: any) => acc + Number(o.total_amount), 0),
+      agents: new Set(data.map((o: any) => o.agent_id)).size,
       topProducts: this.groupByProduct(data)
     }
 

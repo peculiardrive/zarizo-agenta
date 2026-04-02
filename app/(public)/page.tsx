@@ -22,12 +22,12 @@ export default async function HomePage() {
         </Link>
         <div className="hidden md:flex gap-4">
           <Link href="/shop" className="nav-link">Marketplace</Link>
-          <Link href="/about" className="nav-link">Network</Link>
-          <Link href="/contact" className="nav-link">Contact</Link>
+          <Link href="/contact" className="nav-link">Legal & Support</Link>
+          <Link href="/agent-signup" className="nav-link">Become an Agent</Link>
         </div>
         <div className="flex gap-4">
-          <Link href="/auth/login" className="nav-link hidden sm:block">Log in</Link>
-          <Link href="/auth/signup" className="btn-black">Get Started</Link>
+          <Link href="/login" className="nav-link hidden sm:block">Log in</Link>
+          <Link href="/signup" className="btn-black">List Brand</Link>
         </div>
       </nav>
 
@@ -145,22 +145,32 @@ export default async function HomePage() {
                <h3 className="text-3xl font-black mb-8 tracking-tighter font-geist">Zarizo.</h3>
                <p className="text-lg text-gray-500 leading-relaxed font-medium">The future of distributed commerce in Africa. Scaling brands through trusted agent networks.</p>
             </div>
-            <div className="grid grid-cols-2 gap-24">
-               <div>
-                  <h4 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-8 font-geist">Platform</h4>
-                  <ul className="space-y-4 font-medium">
-                     <li><Link href="/shop" className="text-brand-black hover:text-blue-600 transition-colors">Explore</Link></li>
-                     <li><Link href="/auth/signup" className="text-brand-black hover:text-blue-600 transition-colors">Register</Link></li>
-                  </ul>
-               </div>
-               <div>
-                  <h4 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-8 font-geist">Connect</h4>
-                  <ul className="space-y-4 font-medium">
-                     <li><span className="text-brand-black cursor-pointer hover:text-blue-600 transition-colors">Twitter X</span></li>
-                     <li><span className="text-brand-black cursor-pointer hover:text-blue-600 transition-colors">Telegram</span></li>
-                  </ul>
-               </div>
-            </div>
+             <div className="grid grid-cols-2 lg:grid-cols-3 gap-16 md:gap-24">
+                <div>
+                   <h4 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-8 font-geist">Platform</h4>
+                   <ul className="space-y-4 font-medium text-sm">
+                      <li><Link href="/shop" className="text-brand-black hover:text-blue-600 transition-colors">Marketplace</Link></li>
+                      <li><Link href="/signup" className="text-brand-black hover:text-blue-600 transition-colors">Register Business</Link></li>
+                      <li><Link href="/agent-signup" className="text-brand-black hover:text-blue-600 transition-colors">Join as Agent</Link></li>
+                   </ul>
+                </div>
+                <div>
+                   <h4 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-8 font-geist">Company</h4>
+                   <ul className="space-y-4 font-medium text-sm">
+                      <li><Link href="/about" className="text-brand-black hover:text-blue-600 transition-colors">About Us</Link></li>
+                      <li><Link href="/faq" className="text-brand-black hover:text-blue-600 transition-colors">Universal FAQ</Link></li>
+                      <li><Link href="/contact" className="text-brand-black hover:text-blue-600 transition-colors">Support Hub</Link></li>
+                   </ul>
+                </div>
+                <div className="hidden lg:block">
+                   <h4 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-8 font-geist">Legal</h4>
+                   <ul className="space-y-4 font-medium text-sm">
+                      <li><Link href="/privacy" className="text-brand-black hover:text-blue-600 transition-colors">Privacy Policy</Link></li>
+                      <li><Link href="/terms" className="text-brand-black hover:text-blue-600 transition-colors">Terms of Service</Link></li>
+                      <li><Link href="/commission-policy" className="text-brand-black hover:text-blue-600 transition-colors">Commission Policy</Link></li>
+                   </ul>
+                </div>
+             </div>
          </div>
          <div className="max-w-7xl mx-auto mt-32 pt-12 border-t border-gray-50 text-gray-400 text-xs font-bold uppercase tracking-tightest">
             © 2024 ZARIZO LABS. ALL SYSTEMS ACTIVE.

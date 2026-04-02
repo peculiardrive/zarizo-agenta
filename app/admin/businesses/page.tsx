@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { StatCard } from '@/components/dashboard/StatCard'
 import { Building2, Plus, Search, Filter, MoreVertical } from 'lucide-react'
+import { GovernorActions } from '@/components/admin/GovernorActions'
 
 export default async function AdminBusinessesPage() {
   const supabase = createClient()
@@ -80,12 +81,7 @@ export default async function AdminBusinessesPage() {
                            </span>
                         </td>
                         <td className="px-8 py-6 text-right">
-                           <div className="flex items-center justify-end gap-2">
-                              {biz.status === 'pending' && <button className="bg-teal text-white w-9 h-9 flex items-center justify-center rounded-xl hover:scale-110 transition-all shadow-glow-teal">✓</button>}
-                              <button className="bg-mist text-text-2 w-9 h-9 flex items-center justify-center rounded-xl hover:bg-gold transition-all">
-                                 <MoreVertical className="w-4 h-4" />
-                              </button>
-                           </div>
+                           <GovernorActions id={biz.id} type="business" status={biz.status} />
                         </td>
                      </tr>
                   ))}

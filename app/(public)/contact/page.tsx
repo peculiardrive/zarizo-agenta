@@ -1,95 +1,120 @@
-'use client'
+import Link from 'next/link'
+import { Mail, MessageCircle, ShieldCheck, FileText, Lock, Landmark, Scale } from 'lucide-react'
 
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Mail, Phone, MapPin, Send } from 'lucide-react'
-
-export default function ContactPage() {
-  const [submitting, setSubmitting] = useState(false)
-  const [success, setSuccess] = useState(false)
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setSubmitting(true)
-    setTimeout(() => {
-      setSubmitting(false)
-      setSuccess(true)
-    }, 2000)
+const policies = [
+  { 
+    title: 'Terms of Service', 
+    href: '/terms', 
+    icon: FileText, 
+    desc: 'The rules of the Zarizo network for all users.' 
+  },
+  { 
+    title: 'Privacy Policy', 
+    href: '/privacy', 
+    icon: Lock, 
+    desc: 'How we protect your data and sensitive information.' 
+  },
+  { 
+    title: 'Commission Policy', 
+    href: '/commission-policy', 
+    icon: Scale, 
+    desc: 'Transparent rules on earnings and attribution.' 
+  },
+  { 
+    title: 'Payout & Dispute Policy', 
+    href: '/payout-policy', 
+    icon: Landmark, 
+    desc: 'Withdrawal schedules and handling of failed orders.' 
   }
+]
 
-  if (success) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-snow p-4">
-        <div className="max-w-md w-full bg-white p-12 rounded-[40px] border border-border shadow-soft text-center">
-          <div className="w-16 h-16 bg-gold-light text-gold rounded-full flex items-center justify-center mx-auto mb-6 text-3xl">👋</div>
-          <h1 className="text-2xl display text-ink mb-4">Message Sent!</h1>
-          <p className="text-text-2 mb-8">Thanks for reaching out! A member of the Zarizo team will get back to you within 24 hours.</p>
-          <button onClick={() => setSuccess(false)} className="btn-gold block w-full py-4 uppercase tracking-widest text-sm font-bold">Back to Contact</button>
-        </div>
-      </div>
-    )
-  }
-
+export default function SupportPage() {
   return (
-    <div className="min-h-screen bg-snow pt-40 pb-24 px-4 overflow-hidden relative">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-20">
-        <div className="flex-1">
-          <h1 className="text-6xl display text-ink mb-8 leading-tight">Get in <span className="text-gold">Touch.</span></h1>
-          <p className="text-xl text-text-2 mb-12">Have questions about Zarizo or your partnership? Our support team is here to help you expand your footprint.</p>
+    <div className="min-h-screen bg-snow selection:bg-brand-blue/20">
+      {/* Header */}
+      <section className="pt-32 pb-20 px-4 bg-white border-b border-border">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="pill-badge mb-6 mx-auto">Support Center</div>
+          <h1 className="text-5xl md:text-7xl display text-ink mb-6">How can we help?</h1>
+          <p className="text-xl text-text-2 font-medium max-w-2xl mx-auto">
+            Get answers to your questions, explore our legal framework, or talk to a person in our network hub.
+          </p>
+        </div>
+      </section>
 
-          <div className="space-y-10 group">
-             {[
-               { icon: <Mail />, title: 'Email Us', desc: 'support@zarizo.com', link: 'mailto:support@zarizo.com' },
-               { icon: <Phone />, title: 'Call Us', desc: '+234 800 000 0000', link: 'tel:+2348000000000' },
-               { icon: <MapPin />, title: 'Visit Us', desc: 'Lagos, Nigeria', link: '#' }
-             ].map((item, i) => (
-                <div key={i} className="flex items-center gap-6 group/item hover:translate-x-3 transition-transform duration-300">
-                   <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-ink border border-border shadow-soft group-hover/item:bg-gold-light group-hover/item:border-gold transition-all duration-300">
-                      {item.icon}
-                   </div>
-                   <div>
-                      <h3 className="font-bold text-ink uppercase tracking-wider text-xs mb-1 text-text-3">{item.title}</h3>
-                      <a href={item.link} className="text-xl font-bold text-ink hover:text-gold transition-colors">{item.desc}</a>
-                   </div>
-                </div>
-             ))}
+      {/* Contact Grid */}
+      <section className="py-24 px-4 overflow-visible">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 -mt-32">
+          {/* WhatsApp Support */}
+          <div className="bg-white p-12 rounded-[50px] border border-border shadow-soft flex flex-col items-center text-center group hover:translate-y-[-10px] transition-all">
+            <div className="w-20 h-20 bg-teal-light text-teal rounded-[30px] flex items-center justify-center mb-8 shadow-glow-teal group-hover:rotate-12 transition-transform">
+              <MessageCircle className="w-10 h-10" />
+            </div>
+            <h3 className="text-3xl display text-ink mb-4">Chat on WhatsApp</h3>
+            <p className="text-text-2 mb-8 text-lg font-medium">Get instant support for orders, payouts, and technical issues from our active agent support team.</p>
+            <a 
+              href="https://wa.me/234000000000" 
+              className="px-10 py-4 bg-teal text-white rounded-full font-bold shadow-glow-teal hover:scale-105 transition-all"
+            >
+              Start Chat (WhatsApp)
+            </a>
+          </div>
+
+          {/* Email Support */}
+          <div className="bg-ink p-12 rounded-[50px] border border-white/5 shadow-2xl flex flex-col items-center text-center group hover:translate-y-[-10px] transition-all">
+            <div className="w-20 h-20 bg-white/5 text-white rounded-[30px] flex items-center justify-center mb-8 border border-white/10 group-hover:-rotate-12 transition-transform">
+              <Mail className="w-10 h-10" />
+            </div>
+            <h3 className="text-3xl display text-white mb-4">Email Support</h3>
+            <p className="text-text-3 mb-8 text-lg font-medium">For business inquiries, bulk sponsorships, and marketplace listings, send us a detailed request.</p>
+            <a 
+              href="mailto:support@zarizo.com" 
+              className="px-10 py-4 bg-white text-ink rounded-full font-bold hover:scale-105 transition-all"
+            >
+              support@zarizo.com
+            </a>
           </div>
         </div>
+      </section>
 
-        <div className="flex-1">
-           <form onSubmit={handleSubmit} className="bg-white p-12 rounded-[40px] border border-border shadow-soft space-y-6 relative z-10">
-              <div className="grid grid-cols-2 gap-4">
-                 <div className="space-y-2">
-                    <Label htmlFor="name" className="uppercase tracking-widest text-xs font-bold text-text-3">Your Name</Label>
-                    <Input id="name" required className="h-14 rounded-2xl bg-mist border-0" />
-                 </div>
-                 <div className="space-y-2">
-                    <Label htmlFor="email" className="uppercase tracking-widest text-xs font-bold text-text-3">Email Address</Label>
-                    <Input id="email" type="email" required className="h-14 rounded-2xl bg-mist border-0" />
-                 </div>
-              </div>
-              <div className="space-y-2">
-                 <Label htmlFor="subject" className="uppercase tracking-widest text-xs font-bold text-text-3">Subject</Label>
-                 <Input id="subject" required className="h-14 rounded-2xl bg-mist border-0" />
-              </div>
-              <div className="space-y-2">
-                 <Label htmlFor="message" className="uppercase tracking-widest text-xs font-bold text-text-3">Message</Label>
-                 <textarea id="message" required className="w-full h-40 rounded-2xl bg-mist border-0 p-4 text-sm focus:ring-2 focus:ring-gold outline-none resize-none" />
-              </div>
+      {/* Policies Grid */}
+      <section className="py-32 px-4 bg-snow">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row items-end justify-between mb-20 gap-8">
+            <div className="max-w-2xl">
+              <h2 className="text-4xl md:text-6xl display text-ink mb-6">Legal & Transparency</h2>
+              <p className="text-xl text-text-2 font-medium">We build trust through clear rules and fair commission attribution.</p>
+            </div>
+          </div>
 
-              <Button disabled={submitting} type="submit" className="w-full btn-gold py-6 text-xl flex items-center justify-center gap-3">
-                 {submitting ? 'Sending...' : (
-                    <>
-                       <span>Send Message</span>
-                       <Send className="w-5 h-5" />
-                    </>
-                 )}
-              </Button>
-           </form>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {policies.map((p) => (
+              <Link 
+                key={p.href} 
+                href={p.href} 
+                className="bg-white p-8 rounded-[40px] border border-border hover:border-gold transition-all group"
+              >
+                <div className="w-12 h-12 bg-mist text-ink rounded-2xl flex items-center justify-center mb-6 group-hover:bg-gold-light group-hover:text-gold transition-colors">
+                  <p.icon className="w-6 h-6" />
+                </div>
+                <h4 className="text-lg font-bold text-ink mb-4">{p.title}</h4>
+                <p className="text-sm text-text-3 font-medium leading-relaxed">{p.desc}</p>
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
+      </section>
+
+      {/* Safety Badge */}
+      <section className="pb-32 px-4">
+        <div className="max-w-4xl mx-auto bg-white border border-border rounded-[50px] p-12 text-center">
+          <div className="flex justify-center gap-4 mb-8">
+             <ShieldCheck className="w-12 h-12 text-teal" />
+          </div>
+          <h3 className="text-2xl display text-ink mb-4">Your safety is our priority</h3>
+          <p className="text-text-2 font-medium">Zarizo uses bank-grade encryption (SSL) and secure Paystack integration to ensure that all payments and personal data are 100% protected.</p>
+        </div>
+      </section>
     </div>
   )
 }

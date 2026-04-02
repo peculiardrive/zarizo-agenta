@@ -120,114 +120,150 @@ export default function AgentSignupPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-snow p-4">
-      <div className="max-w-lg w-full bg-white p-8 rounded-2xl border border-border shadow-soft">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl display text-ink mb-2">Join as Agent</h1>
-          <p className="text-text-2">Earn commissions by referring products</p>
+    <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2 bg-snow">
+      {/* Left Decoration / Info */}
+      <div className="hidden lg:flex bg-ink p-20 flex-col justify-between relative overflow-hidden">
+        <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-gold/10 rounded-full filter blur-[120px] pointer-events-none"></div>
+        <div className="relative z-10">
+           <h2 className="text-6xl display text-white mb-10 leading-none">Turn your <span className="text-teal">influence</span> <br/>into income.</h2>
+           <p className="text-xl text-text-3 font-medium max-w-md">Become a professional Zarizo agent and earn 10-30% commission on every sale you generate through your unique links.</p>
         </div>
 
-        <form onSubmit={handleSignup} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="fullName">Full Name</Label>
-            <Input 
-              id="fullName" 
-              value={formData.fullName}
-              onChange={(e) => setFormData({...formData, fullName: e.target.value})}
-              required 
-            />
+        <div className="relative z-10 grid grid-cols-1 gap-8">
+           {[
+             { title: 'Zero Setup Cost', desc: 'Pick any product and start earning immediately.' },
+             { title: 'Fast Withdrawals', desc: '₦5k minimum payout threshold, processed bi-weekly.' },
+             { title: 'Secure Tracking', desc: 'Cryptographic referral attribution ensures you get paid for every click.' }
+           ].map((feat, i) => (
+             <div key={i} className="flex gap-4">
+                <div className="w-6 h-6 rounded-full bg-gold flex-shrink-0 mt-1 shadow-glow font-bold flex items-center justify-center text-[10px] text-ink">✓</div>
+                <div>
+                   <h4 className="text-white font-bold mb-1">{feat.title}</h4>
+                   <p className="text-sm text-text-3 font-medium">{feat.desc}</p>
+                </div>
+             </div>
+           ))}
+        </div>
+      </div>
+
+      {/* Form Side */}
+      <div className="flex items-center justify-center p-4">
+        <div className="max-w-xl w-full bg-white p-12 rounded-[40px] border border-border shadow-soft">
+          <div className="text-center mb-10">
+            <h1 className="text-3xl display text-ink mb-2">Join as Agent</h1>
+            <p className="text-text-2 font-medium">Earn commissions by referring products</p>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <form onSubmit={handleSignup} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="fullName" className="uppercase tracking-widest text-[10px] font-bold text-text-3">Full Name</Label>
               <Input 
-                id="email" 
-                type="email"
-                value={formData.email}
-                onChange={(e) => setFormData({...formData, email: e.target.value})}
+                id="fullName" 
+                className="h-14 rounded-2xl bg-mist border-0"
+                value={formData.fullName}
+                onChange={(e) => setFormData({...formData, fullName: e.target.value})}
                 required 
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="phone">Phone Number</Label>
-              <Input 
-                id="phone" 
-                type="tel"
-                value={formData.phone}
-                onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                required 
-              />
-            </div>
-          </div>
 
-          <div className="bg-mist p-4 rounded-xl space-y-4">
-            <Label className="uppercase tracking-wider text-xs font-bold text-text-3">Payout Details (GTB, Zenith, Bank accounts)</Label>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="bankName">Bank Name</Label>
+                <Label htmlFor="email" className="uppercase tracking-widest text-[10px] font-bold text-text-3">Email</Label>
                 <Input 
-                  id="bankName" 
-                  value={formData.bankName}
-                  onChange={(e) => setFormData({...formData, bankName: e.target.value})}
+                  id="email" 
+                  type="email"
+                  className="h-14 rounded-2xl bg-mist border-0"
+                  value={formData.email}
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
                   required 
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="accountNumber">Account Number</Label>
+                <Label htmlFor="phone" className="uppercase tracking-widest text-[10px] font-bold text-text-3">Phone Number</Label>
                 <Input 
-                  id="accountNumber" 
-                  value={formData.accountNumber}
-                  onChange={(e) => setFormData({...formData, accountNumber: e.target.value})}
+                  id="phone" 
+                  type="tel"
+                  className="h-14 rounded-2xl bg-mist border-0"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({...formData, phone: e.target.value})}
                   required 
                 />
               </div>
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="accountName">Account Name</Label>
-              <Input 
-                id="accountName" 
-                value={formData.accountName}
-                onChange={(e) => setFormData({...formData, accountName: e.target.value})}
-                required 
-              />
+
+            <div className="bg-snow p-6 rounded-3xl space-y-4 border border-border">
+              <Label className="uppercase tracking-widest text-[10px] font-bold text-text-3">Payout Details (Bank Info)</Label>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="bankName" className="text-[10px] font-bold text-text-2">Bank Name</Label>
+                  <Input 
+                    id="bankName" 
+                    className="h-12 rounded-xl bg-white border-border"
+                    value={formData.bankName}
+                    onChange={(e) => setFormData({...formData, bankName: e.target.value})}
+                    required 
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="accountNumber" className="text-[10px] font-bold text-text-2">Account Number</Label>
+                  <Input 
+                    id="accountNumber" 
+                    className="h-12 rounded-xl bg-white border-border"
+                    value={formData.accountNumber}
+                    onChange={(e) => setFormData({...formData, accountNumber: e.target.value})}
+                    required 
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="accountName" className="text-[10px] font-bold text-text-2">Account Name</Label>
+                <Input 
+                  id="accountName" 
+                  className="h-12 rounded-xl bg-white border-border"
+                  value={formData.accountName}
+                  onChange={(e) => setFormData({...formData, accountName: e.target.value})}
+                  required 
+                />
+              </div>
             </div>
-          </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input 
-                id="password" 
-                type="password"
-                value={formData.password}
-                onChange={(e) => setFormData({...formData, password: e.target.value})}
-                required 
-              />
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="password" className="uppercase tracking-widest text-[10px] font-bold text-text-3">Password</Label>
+                <Input 
+                  id="password" 
+                  type="password"
+                  className="h-14 rounded-2xl bg-mist border-0"
+                  value={formData.password}
+                  onChange={(e) => setFormData({...formData, password: e.target.value})}
+                  required 
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="confirmPassword" className="uppercase tracking-widest text-[10px] font-bold text-text-3">Confirm</Label>
+                <Input 
+                  id="confirmPassword" 
+                  type="password"
+                  className="h-14 rounded-2xl bg-mist border-0"
+                  value={formData.confirmPassword}
+                  onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
+                  required 
+                />
+              </div>
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirm Password</Label>
-              <Input 
-                id="confirmPassword" 
-                type="password"
-                value={formData.confirmPassword}
-                onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
-                required 
-              />
-            </div>
-          </div>
 
-          {error && <p className="text-danger text-sm">{error}</p>}
+            {error && <p className="text-danger text-sm font-bold">{error}</p>}
 
-          <Button type="submit" name="submit-agent-signup" id="submit-agent-signup" disabled={loading} className="w-full btn-teal block">
-            {loading ? 'Creating Account...' : 'Register as Agent'}
-          </Button>
-        </form>
+            <Button type="submit" name="submit-agent-signup" id="submit-agent-signup" disabled={loading} className="w-full btn-teal py-4 uppercase tracking-widest text-sm shadow-glow-teal">
+              {loading ? 'Processing...' : 'Register as Agent'}
+            </Button>
+          </form>
 
-        <p className="mt-8 text-center text-sm text-text-2">
-          Already have an account?{' '}
-          <Link href="/auth/login" className="text-gold font-bold hover:underline">Login</Link>
-        </p>
+          <p className="mt-8 text-center text-sm text-text-2 font-medium">
+            Already have an account?{' '}
+            <Link href="/auth/login" className="text-gold font-bold hover:underline">Login</Link>
+          </p>
+        </div>
       </div>
     </div>
   )

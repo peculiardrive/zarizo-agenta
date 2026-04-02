@@ -3,7 +3,8 @@ import { StatCard } from '@/components/dashboard/StatCard'
 import { OrderPipeline } from '@/components/dashboard/OrderPipeline'
 import { ActivityFeed } from '@/components/dashboard/ActivityFeed'
 import { ReportService } from '@/lib/services/ReportService'
-import { Package, Users, ShoppingCart, Wallet, CheckCircle, Clock } from 'lucide-react'
+import { AnalyticsOverview } from '@/components/admin/AnalyticsOverview'
+import { Package, Users, ShoppingCart, Wallet, CheckCircle, Clock, AlertCircle } from 'lucide-react'
 
 export default async function AdminOverview() {
   const summary = await ReportService.getPlatformSummary()
@@ -23,7 +24,10 @@ export default async function AdminOverview() {
 
   return (
     <div className="space-y-12">
-      {/* Stat Cards */}
+      {/* Analytics Overview */}
+      <AnalyticsOverview data={summary} />
+
+      {/* Main Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-6 gap-6">
         <StatCard 
           label="Total Orders" 
@@ -33,13 +37,13 @@ export default async function AdminOverview() {
         />
         <StatCard 
           label="Pending Orders" 
-          value={summary.totalOrders - 3} // Placeholder for pending count
+          value={summary.pendingOrders || 0} 
           icon={<Clock className="w-5 h-5" />} 
           variant="gold" 
         />
         <StatCard 
           label="Delivered" 
-          value={3} // Placeholder for delivered
+          value={summary.deliveredOrders || 0} 
           icon={<CheckCircle className="w-5 h-5" />} 
           variant="teal" 
         />

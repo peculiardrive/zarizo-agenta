@@ -108,12 +108,39 @@ export default function BusinessSignupPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-snow p-4">
-      <div className="max-w-lg w-full bg-white p-8 rounded-2xl border border-border shadow-soft">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl display text-ink mb-2">Register Business</h1>
-          <p className="text-text-2">Join Zarizo and scale your sales</p>
+    <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2 bg-snow">
+      {/* Left Decoration / Info */}
+      <div className="hidden lg:flex bg-ink p-20 flex-col justify-between relative overflow-hidden">
+        <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-brand-blue/20 rounded-full filter blur-[120px] pointer-events-none"></div>
+        <div className="relative z-10">
+           <h2 className="text-6xl display text-white mb-10 leading-none">Scale your brand <br/>in <span className="text-gold">minutes.</span></h2>
+           <p className="text-xl text-text-3 font-medium max-w-md">Join hundreds of businesses using the Zarizo network to reach new customers across Africa without a marketing budget.</p>
         </div>
+
+        <div className="relative z-10 grid grid-cols-1 gap-8">
+           {[
+             { title: '1,000+ Agents', desc: 'Ready to promote your products instantly.' },
+             { title: 'Automated Payouts', desc: 'We handle commissions so you can focus on inventory.' },
+             { title: 'Real-time Analytics', desc: 'Watch your reach and sales grow in live time.' }
+           ].map((feat, i) => (
+             <div key={i} className="flex gap-4">
+                <div className="w-6 h-6 rounded-full bg-teal flex-shrink-0 mt-1 shadow-glow-teal"></div>
+                <div>
+                   <h4 className="text-white font-bold mb-1">{feat.title}</h4>
+                   <p className="text-sm text-text-3 font-medium">{feat.desc}</p>
+                </div>
+             </div>
+           ))}
+        </div>
+      </div>
+
+      {/* Form Side */}
+      <div className="flex items-center justify-center p-4">
+        <div className="max-w-xl w-full bg-white p-12 rounded-[40px] border border-border shadow-soft">
+          <div className="text-center mb-10">
+            <h1 className="text-3xl display text-ink mb-2">Register Business</h1>
+            <p className="text-text-2 font-medium">Join the next-gen sales infrastructure</p>
+          </div>
 
         <form onSubmit={handleSignup} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
@@ -205,6 +232,7 @@ export default function BusinessSignupPage() {
           Already have an account?{' '}
           <Link href="/auth/login" className="text-gold font-bold hover:underline">Login</Link>
         </p>
+        </div>
       </div>
     </div>
   )
