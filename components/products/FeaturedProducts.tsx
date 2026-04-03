@@ -45,7 +45,7 @@ const FALLBACK_PRODUCTS = [
 ]
 
 export async function FeaturedProducts() {
-  const supabase = createClient()
+  const supabase = await createClient()
   
   let products: any[] = []
   try {

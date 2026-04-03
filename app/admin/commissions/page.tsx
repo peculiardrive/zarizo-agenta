@@ -3,12 +3,14 @@ import { StatCard } from '@/components/dashboard/StatCard'
 import { Wallet, Check, CheckCircle2, MoreVertical, CreditCard } from 'lucide-react'
 
 export default async function AdminCommissionsPage() {
-  const supabase = createClient()
+  const supabase = await createClient()
   
-  const { data: commissions } = await supabase
+  const { data: commissionsData } = await supabase
     .from('commissions')
     .select('*, orders(id), agents(users(full_name, bank_name, account_number))')
     .order('created_at', { ascending: false })
+
+  const commissions = (commissionsData || []) as any[]
 
   const stats = {
     pending: commissions?.filter(c => c.payout_status === 'pending').reduce((acc, c) => acc + Number(c.amount), 0) || 0,

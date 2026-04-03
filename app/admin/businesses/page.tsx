@@ -4,7 +4,7 @@ import { Building2, Plus, Search, Filter, MoreVertical } from 'lucide-react'
 import { GovernorActions } from '@/components/admin/GovernorActions'
 
 export default async function AdminBusinessesPage() {
-  const supabase = createClient()
+  const supabase = await createClient()
   
   const { data } = await supabase
     .from('businesses')

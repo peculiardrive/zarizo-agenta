@@ -4,14 +4,14 @@ import { Users, Search, Filter, MoreVertical, Check, X } from 'lucide-react'
 import { GovernorActions } from '@/components/admin/GovernorActions'
 
 export default async function AdminAgentsPage() {
-  const supabase = createClient()
+  const supabase = await createClient()
   
-  const { data } = await supabase
+  const { data: agentsData } = await supabase
     .from('agents')
     .select('*, users(full_name, email, phone)')
     .order('created_at', { ascending: false })
 
-  const agents = (data || []) as any[]
+  const agents = (agentsData || []) as any[]
   const activeAgents = agents.filter(a => a.status === 'active')
   const pendingAgents = agents.filter(a => a.status === 'pending')
 

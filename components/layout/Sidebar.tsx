@@ -21,8 +21,10 @@ import {
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 
+export type SidebarRole = 'admin' | 'business_owner' | 'agent' | 'customer' | 'reseller';
+
 const adminLinks = [
-  { href: '/admin', label: 'Overview', icon: LayoutDashboard },
+  { href: '/admin/dashboard', label: 'Overview', icon: LayoutDashboard },
   { href: '/admin/pipeline', label: 'Order Pipeline', icon: KanbanSquare },
   { href: '/admin/businesses', label: 'Businesses', icon: Building2 },
   { href: '/admin/agents', label: 'Agents', icon: Users },
@@ -35,7 +37,7 @@ const adminLinks = [
 ]
 
 const bizLinks = [
-  { href: '/business', label: 'Overview', icon: LayoutDashboard },
+  { href: '/business/dashboard', label: 'Overview', icon: LayoutDashboard },
   { href: '/business/products', label: 'My Products', icon: Package },
   { href: '/business/orders', label: 'Orders', icon: ShoppingCart },
   { href: '/business/agents', label: 'My Agents', icon: Users },
@@ -45,7 +47,7 @@ const bizLinks = [
 ]
 
 const agentLinks = [
-  { href: '/agent', label: 'Overview', icon: LayoutDashboard },
+  { href: '/agent/dashboard', label: 'Overview', icon: LayoutDashboard },
   { href: '/agent/products', label: 'Browse & Share', icon: Package },
   { href: '/agent/orders', label: 'My Orders', icon: ShoppingCart },
   { href: '/agent/commissions', label: 'Commissions', icon: Wallet },
@@ -54,11 +56,33 @@ const agentLinks = [
   { href: '/agent/support', label: 'Support', icon: HelpCircle },
 ]
 
-export function Sidebar({ role }: { role: 'admin' | 'business' | 'agent' }) {
+const customerLinks = [
+  { href: '/customer/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/customer/orders', label: 'My Orders', icon: ShoppingCart },
+  { href: '/customer/profile', label: 'Profile', icon: UserCircle },
+  { href: '/customer/support', label: 'Support', icon: HelpCircle },
+]
+
+const resellerLinks = [
+  { href: '/reseller/dashboard', label: 'Overview', icon: LayoutDashboard },
+  { href: '/reseller/inventory', label: 'Inventory', icon: Package },
+  { href: '/reseller/orders', label: 'Orders', icon: ShoppingCart },
+  { href: '/reseller/members', label: 'My Network', icon: Users },
+  { href: '/reseller/reports', label: 'Analytics', icon: BarChart3 },
+  { href: '/reseller/settings', label: 'Settings', icon: Settings },
+]
+
+export function Sidebar({ role }: { role: SidebarRole }) {
   const pathname = usePathname()
   const supabase = createClient()
 
-  const links = role === 'admin' ? adminLinks : role === 'business' ? bizLinks : agentLinks
+  const links = {
+    admin: adminLinks,
+    business_owner: bizLinks,
+    agent: agentLinks,
+    customer: customerLinks,
+    reseller: resellerLinks,
+  }[role] || []
 
   const handleLogout = async () => {
     await supabase.auth.signOut()
@@ -73,7 +97,7 @@ export function Sidebar({ role }: { role: 'admin' | 'business' | 'agent' }) {
 
       <nav className="flex-1 px-4 py-8 space-y-1 overflow-y-auto scrollbar-hide">
         {links.map((link) => {
-          const isActive = pathname === link.href || (link.href !== `/${role}` && pathname.startsWith(link.href))
+          const isActive = pathname === link.href || (link.href.includes('/dashboard') ? pathname === link.href : pathname.startsWith(link.href))
           return (
             <Link 
               key={link.href} 

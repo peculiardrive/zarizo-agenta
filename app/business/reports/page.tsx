@@ -3,15 +3,16 @@ import { ReportService } from '@/lib/services/ReportService'
 import { TrendingUp, ShoppingBag, Users, Zap } from 'lucide-react'
 
 export default async function BusinessReportsPage() {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  const { data: business } = await supabase
+  const { data: businessData } = await supabase
     .from('businesses')
     .select('id')
-    .eq('user_id', user?.id)
+    .eq('user_id', user?.id as string)
     .single()
 
+  const business = businessData as any
   const performance = await ReportService.getBusinessPerformance(business?.id)
 
   return (

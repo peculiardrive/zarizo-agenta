@@ -3,20 +3,24 @@ import { StatCard } from '@/components/dashboard/StatCard'
 import { ShoppingCart, Search, Filter, MoreVertical, Eye, Truck, Check } from 'lucide-react'
 
 export default async function BusinessOrdersPage() {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  const { data: business } = await supabase
+  const { data: businessData } = await supabase
     .from('businesses')
     .select('id')
-    .eq('user_id', user?.id)
+    .eq('user_id', user?.id as string)
     .single()
+  
+  const business = businessData as any
 
-  const { data: orders } = await supabase
+  const { data: ordersData } = await supabase
     .from('orders')
     .select('*, products(title)')
     .eq('business_id', business?.id)
     .order('created_at', { ascending: false })
+
+  const orders = (ordersData || []) as any[]
 
   return (
     <div className="space-y-12">

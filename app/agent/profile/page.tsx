@@ -5,14 +5,16 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 export default async function AgentProfilePage() {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  const { data: agent } = await supabase
+  const { data: agentData } = await supabase
     .from('agents')
     .select('*, users(*)')
-    .eq('user_id', user?.id)
+    .eq('user_id', user?.id as string)
     .single()
+  
+  const agent = agentData as any
 
   return (
     <div className="space-y-12 pb-20">

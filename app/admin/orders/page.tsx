@@ -3,18 +3,20 @@ import { StatCard } from '@/components/dashboard/StatCard'
 import { ShoppingCart, Search, Filter, Download, MoreVertical, Calendar } from 'lucide-react'
 
 export default async function AdminOrdersPage() {
-  const supabase = createClient()
+  const supabase = await createClient()
   
-  const { data: orders } = await supabase
+  const { data: ordersData } = await supabase
     .from('orders')
     .select('*, products(title), businesses(business_name), agents(users(full_name))')
     .order('created_at', { ascending: false })
 
+  const orders = (ordersData || []) as any[]
+
   const stats = {
-    total: orders?.length || 0,
-    revenue: orders?.reduce((acc, o) => acc + Number(o.total_amount), 0) || 0,
-    delivered: orders?.filter(o => o.order_status === 'delivered').length || 0,
-    commissions: orders?.reduce((acc, o) => acc + Number(o.commission_amount), 0) || 0
+    total: orders.length,
+    revenue: orders.reduce((acc, o) => acc + Number(o.total_amount), 0),
+    delivered: orders.filter(o => o.order_status === 'delivered').length,
+    commissions: orders.reduce((acc, o) => acc + Number(o.commission_amount), 0)
   }
 
   return (

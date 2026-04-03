@@ -67,7 +67,7 @@ export default function AgentSignupPage() {
 
     if (authData.user) {
       // Create user record in public.users
-      const { error: userError } = await supabase.from('users').insert({
+      const { error: userError } = await (supabase.from('users') as any).insert({
         id: authData.user.id,
         full_name: formData.fullName,
         email: formData.email,
@@ -84,7 +84,7 @@ export default function AgentSignupPage() {
       const referralCode = generateReferralCode(formData.fullName)
 
       // Create agent record
-      const { error: agentError } = await supabase.from('agents').insert({
+      const { error: agentError } = await (supabase.from('agents') as any).insert({
         user_id: authData.user.id,
         referral_code: referralCode,
         bank_name: formData.bankName,

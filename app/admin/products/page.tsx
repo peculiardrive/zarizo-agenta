@@ -4,15 +4,16 @@ import { Package, Search, Filter, Check, X, Building2 } from 'lucide-react'
 import { GovernorActions } from '@/components/admin/GovernorActions'
 
 export default async function AdminProductsPage() {
-  const supabase = createClient()
+  const supabase = await createClient()
   
-  const { data: products } = await supabase
+  const { data: productsData } = await supabase
     .from('products')
     .select('*, businesses(business_name)')
     .order('created_at', { ascending: false })
 
-  const pendingCount = products?.filter(p => p.status === 'pending').length || 0
-  const activeCount = products?.filter(p => p.status === 'active').length || 0
+  const products = (productsData || []) as any[]
+  const pendingCount = products.filter(p => p.status === 'pending').length
+  const activeCount = products.filter(p => p.status === 'active').length
 
   return (
     <div className="space-y-12">

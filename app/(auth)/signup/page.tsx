@@ -56,7 +56,7 @@ export default function BusinessSignupPage() {
 
     if (authData.user) {
       // Create user record in public.users
-      const { error: userError } = await supabase.from('users').insert({
+      const { error: userError } = await (supabase.from('users') as any).insert({
         id: authData.user.id,
         full_name: formData.ownerName,
         email: formData.email,
@@ -71,7 +71,7 @@ export default function BusinessSignupPage() {
       }
 
       // Create business record
-      const { error: bizError } = await supabase.from('businesses').insert({
+      const { error: bizError } = await (supabase.from('businesses') as any).insert({
         user_id: authData.user.id,
         business_name: formData.businessName,
         owner_name: formData.ownerName,

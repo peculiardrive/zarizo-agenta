@@ -3,20 +3,24 @@ import { StatCard } from '@/components/dashboard/StatCard'
 import { ShoppingCart, Search, Eye, Filter, CheckCircle2, Clock } from 'lucide-react'
 
 export default async function AgentOrdersPage() {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  const { data: agent } = await supabase
+  const { data: agentData } = await supabase
     .from('agents')
     .select('id')
-    .eq('user_id', user?.id)
+    .eq('user_id', user?.id as string)
     .single()
+  
+  const agent = agentData as any
 
-  const { data: orders } = await supabase
+  const { data: ordersData } = await supabase
     .from('orders')
     .select('*, products(title)')
     .eq('agent_id', agent?.id)
     .order('created_at', { ascending: false })
+
+  const orders = (ordersData || []) as any[]
 
   return (
     <div className="space-y-12 pb-20">

@@ -4,20 +4,24 @@ import { Package, Plus, Search, MoreVertical, Edit, Trash2 } from 'lucide-react'
 import Link from 'next/link'
 
 export default async function BusinessProductsPage() {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  const { data: business } = await supabase
+  const { data: businessData } = await supabase
     .from('businesses')
     .select('id')
-    .eq('user_id', user?.id)
+    .eq('user_id', user?.id as string)
     .single()
+  
+  const business = businessData as any
 
-  const { data: products } = await supabase
+  const { data: productsData } = await supabase
     .from('products')
     .select('*')
     .eq('business_id', business?.id)
     .order('created_at', { ascending: false })
+
+  const products = (productsData || []) as any[]
 
   return (
     <div className="space-y-12">

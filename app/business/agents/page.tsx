@@ -3,26 +3,28 @@ import { StatCard } from '@/components/dashboard/StatCard'
 import { Users, Search, MoreVertical, MessageCircle, ShoppingBag } from 'lucide-react'
 
 export default async function BusinessAgentsPage() {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  const { data: business } = await supabase
+  const { data: businessData } = await supabase
     .from('businesses')
     .select('id')
-    .eq('user_id', user?.id)
+    .eq('user_id', user?.id as string)
     .single()
 
-  const bizId = business?.id
+  const bizId = (businessData as any)?.id
 
   // Fetch unique agents who have sold for this business
-  const { data: orderAgents } = await supabase
+  const { data: orderAgentsData } = await supabase
     .from('orders')
     .select('agent_id, agents(*, users(full_name, email, phone))')
     .eq('business_id', bizId)
     .not('agent_id', 'is', null)
 
-  const uniqueAgents = Array.from(new Set(orderAgents?.map(oa => oa.agent_id))).map(id => {
-     return orderAgents?.find(oa => oa.agent_id === id)?.agents
+  const orderAgents = (orderAgentsData || []) as any[]
+
+  const uniqueAgents = Array.from(new Set(orderAgents.map(oa => oa.agent_id))).map(id => {
+     return orderAgents.find(oa => oa.agent_id === id)?.agents
   }).filter(Boolean)
 
   return (

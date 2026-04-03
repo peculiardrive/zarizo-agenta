@@ -36,8 +36,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${syne.variable} ${dmSans.variable} ${inter.variable} font-inter bg-white text-brand-black antialiased`}>
+    <html lang="en" suppressHydrationWarning>
+      <body suppressHydrationWarning className={`${syne.variable} ${dmSans.variable} ${inter.variable} font-inter bg-white text-brand-black antialiased`}>
         {children}
       </body>
     </html>
