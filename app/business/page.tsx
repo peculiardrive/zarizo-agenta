@@ -7,26 +7,29 @@ export default async function BusinessOverview() {
   const supabase = createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  const { data: business } = await supabase
+  const { data: businessData } = await supabase
     .from('businesses')
     .select('id')
-    .eq('user_id', user?.id)
+    .eq('user_id', user?.id as string)
     .single()
 
+  const business: any = businessData
   const bizId = business?.id
 
   // Stats
   const { count: totalOrders } = await supabase.from('orders').select('*', { count: 'exact', head: true }).eq('business_id', bizId)
   const { data: revenueData } = await supabase.from('orders').select('total_amount').eq('business_id', bizId).eq('payment_status', 'paid')
-  const totalRevenue = revenueData?.reduce((acc, o) => acc + Number(o.total_amount), 0) || 0
+  const totalRevenue = (revenueData as any[])?.reduce((acc, o) => acc + Number(o.total_amount), 0) || 0
   const { count: productsCount } = await supabase.from('products').select('*', { count: 'exact', head: true }).eq('business_id', bizId)
 
-  const { data: recentOrders } = await supabase
+  const { data: orderData } = await supabase
     .from('orders')
     .select('*, products(title), agents(users(full_name))')
     .eq('business_id', bizId)
     .order('created_at', { ascending: false })
     .limit(5)
+
+  const recentOrders = (orderData || []) as any[]
 
   return (
     <div className="space-y-12">

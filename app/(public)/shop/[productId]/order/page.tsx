@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
@@ -39,7 +41,7 @@ export default function PlaceOrderPage() {
     const { data: p } = await supabase
       .from('products')
       .select('*, businesses(*)')
-      .eq('id', productId)
+      .eq('id', productId as string)
       .single()
     
     if (p) setProduct(p)
@@ -62,7 +64,7 @@ export default function PlaceOrderPage() {
         amount: totalAmount * 100, // Kobo
         currency: "NGN",
         callback: async (response: any) => {
-          const { order } = await OrderService.createOrder({
+          const { order }: any = await OrderService.createOrder({
             productId: productId as string,
             agentId: agent?.id,
             customerName: formData.customerName,

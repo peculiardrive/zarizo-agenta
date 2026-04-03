@@ -7,36 +7,49 @@ export default async function AgentOverview() {
   const supabase = createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  const { data: agent } = await supabase
-    .from('agents')
-    .select('*, users(full_name)')
-    .eq('user_id', user?.id)
+  const { data: businessData } = await supabase
+    .from('businesses')
+    .select('id')
+    .eq('user_id', user?.id as string)
     .single()
 
+  const business = businessData as any
+  const bizId = business?.id
+
+  const { data: agentData } = await supabase
+    .from('agents')
+    .select('*, users(full_name)')
+    .eq('user_id', user?.id as string)
+    .single()
+
+  const agent = agentData as any
   const agentId = agent?.id
 
   // Stats
   const { count: totalOrders } = await supabase.from('orders').select('*', { count: 'exact', head: true }).eq('agent_id', agentId)
   const { data: earningsData } = await supabase.from('commissions').select('amount, payout_status').eq('agent_id', agentId)
   
+  const rawEarnings = (earningsData || []) as any[]
   const earnings = {
-    pending: earningsData?.filter(c => c.payout_status === 'pending').reduce((acc, c) => acc + Number(c.amount), 0) || 0,
-    approved: earningsData?.filter(c => c.payout_status === 'approved').reduce((acc, c) => acc + Number(c.amount), 0) || 0,
-    total: earningsData?.reduce((acc, c) => acc + Number(c.amount), 0) || 0
+    pending: rawEarnings.filter(c => c.payout_status === 'pending').reduce((acc, c) => acc + Number(c.amount), 0) || 0,
+    approved: rawEarnings.filter(c => c.payout_status === 'approved').reduce((acc, c) => acc + Number(c.amount), 0) || 0,
+    total: rawEarnings.reduce((acc, c) => acc + Number(c.amount), 0) || 0
   }
 
-  const { data: recentOrders } = await supabase
+  const { data: orderData } = await supabase
     .from('orders')
     .select('*, products(title)')
     .eq('agent_id', agentId)
     .order('created_at', { ascending: false })
     .limit(5)
 
+  const recentOrders = (orderData || []) as any[]
+
   return (
     <div className="space-y-12 pb-20 px-4 md:px-0">
       <div className="flex items-center justify-between flex-wrap gap-6">
         <div>
-           <h1 className="text-5xl display text-ink mb-2">Welcome, {agent?.users.full_name.split(' ')[0]}!</h1>
+           <h1 className="text-5xl display text-ink mb-2">Welcome, {agent?.users?.full_name?.split(' ')[0] || 'Agent'}!</h1>
            <p className="text-text-2 font-bold uppercase tracking-widest text-[10px] bg-mist px-4 py-2 rounded-xl border border-border inline-block">Partner Code: <span className="text-gold">{agent?.referral_code}</span></p>
         </div>
         <div className="flex items-center gap-4">
